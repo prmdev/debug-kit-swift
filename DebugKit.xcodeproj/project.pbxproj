@@ -6,6 +6,21 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		33CB2E49212A734600948858 /* SwiftLint */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 33CB2E4C212A734600948858 /* Build configuration list for PBXAggregateTarget "SwiftLint" */;
+			buildPhases = (
+				33CB2E4D212A734D00948858 /* Autocorrect */,
+				33CB2E4E212A735600948858 /* Lint */,
+			);
+			dependencies = (
+			);
+			name = SwiftLint;
+			productName = SwiftLint;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		338168862129B12200DBE959 /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338168822129B12200DBE959 /* AppInfo.swift */; };
 		338168872129B12200DBE959 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338168832129B12200DBE959 /* DebugViewController.swift */; };
@@ -262,6 +277,9 @@
 					338168AA2129BA5D00DBE959 = {
 						CreatedOnToolsVersion = 10.0;
 					};
+					33CB2E49212A734600948858 = {
+						CreatedOnToolsVersion = 10.0;
+					};
 				};
 			};
 			buildConfigurationList = 33E6C70C2129B0BE007775FE /* Build configuration list for PBXProject "DebugKit" */;
@@ -280,6 +298,7 @@
 				338168782129B0FC00DBE959 /* DebugKit */,
 				3381688E2129B16C00DBE959 /* DebugKitTests */,
 				338168AA2129BA5D00DBE959 /* DebugKitExample */,
+				33CB2E49212A734600948858 /* SwiftLint */,
 			);
 		};
 /* End PBXProject section */
@@ -303,6 +322,47 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		33CB2E4D212A734D00948858 /* Autocorrect */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Autocorrect;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint autocorrect\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		33CB2E4E212A735600948858 /* Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Lint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		338168752129B0FC00DBE959 /* Sources */ = {
@@ -779,6 +839,24 @@
 			};
 			name = Release;
 		};
+		33CB2E4A212A734600948858 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 52W2H99QHH;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		33CB2E4B212A734600948858 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 52W2H99QHH;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		33E6C70D2129B0BE007775FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -825,6 +903,15 @@
 			buildConfigurations = (
 				338168BB2129BA6200DBE959 /* Debug */,
 				338168BC2129BA6200DBE959 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		33CB2E4C212A734600948858 /* Build configuration list for PBXAggregateTarget "SwiftLint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				33CB2E4A212A734600948858 /* Debug */,
+				33CB2E4B212A734600948858 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

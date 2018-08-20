@@ -15,16 +15,16 @@ public final class DebugViewController: UIViewController {
         static let title = "Debug"
         static let debugCellIdentifier = "DebugCell"
     }
-    
+
     internal static var moduleSet: MetatypeSet = MetatypeSet()
     private var modules: ModuleMap = DebugViewController.moduleSet.reduce(into: [:], metatypesToKeyedModuleMap)
     private var domains: [ModuleDomain] {
         return modules.keys.sorted(by: <)
     }
-    
+
     private var isFiltering: Bool = false
     private var filteredModules: [SearchResult] = []
-    
+
     private lazy var tableView: UITableView = {
         $0.register(UITableViewCell.self, forCellReuseIdentifier: Constants.debugCellIdentifier)
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -32,17 +32,17 @@ public final class DebugViewController: UIViewController {
         $0.delegate = self
         return $0
     }(UITableView(frame: .zero, style: .grouped))
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = Constants.title
         setupSearchViewController()
-        
+
         view.addSubview(tableView)
         tableView.pin(to: view)
     }
-    
+
     func setupSearchViewController() {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -63,7 +63,7 @@ extension DebugViewController: UITableViewDataSource {
         }
         return domains.count
     }
-    
+
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard !isFiltering else {
             return filteredModules.count
@@ -71,7 +71,7 @@ extension DebugViewController: UITableViewDataSource {
         let domain = domains[section]
         return modules[domain]?.count ?? 0
     }
-    
+
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.debugCellIdentifier, for: indexPath)
         let domain = domains[indexPath.section]
@@ -113,7 +113,9 @@ extension DebugViewController: UISearchResultsUpdating {
                     let result = SearchResult(match: type.name, path: [type.name], type: type)
                     acc.append(result)
                 }
-                let subresults: [SearchResult] = type.searchResults(for: query).map { .init(match: $0.match, path: $0.path, type: type) }
+                let subresults: [SearchResult] = type.searchResults(for: query).map {
+                    .init(match: $0.match, path: $0.path, type: type)
+                }
                 acc.append(contentsOf: subresults)
             }
             isFiltering = true

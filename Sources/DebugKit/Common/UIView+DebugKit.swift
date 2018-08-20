@@ -38,14 +38,14 @@ extension UIView {
             self.layer.borderWidth = newValue
         }
     }
-    
+
     func isVisibleInSuperview() -> Bool {
         guard let superview = self.superview else {
             return false
         }
         return self.isVisible(inside: superview)
     }
-    
+
     func isVisible(inside view: UIView, completely: Bool = false) -> Bool {
         if self.isHidden {
             return false
@@ -61,25 +61,25 @@ extension UIView {
         }
         return false
     }
-    
+
     func pin(to view: UIView) {
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trailingAnchor.constraint(equalTo: view.trailingAnchor),
             topAnchor.constraint(equalTo: view.topAnchor),
-            bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+
     func unpin(from view: UIView) {
         NSLayoutConstraint.deactivate([
             leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trailingAnchor.constraint(equalTo: view.trailingAnchor),
             topAnchor.constraint(equalTo: view.topAnchor),
-            bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
     }
-    
+
     func traverseSuperviews(_ until: (UIView) throws -> Bool) rethrows -> UIView? {
         var pointer: UIView? = self
         while pointer?.superview != nil {
@@ -93,7 +93,7 @@ extension UIView {
         }
         return nil
     }
-            
+
     func removeAllSubviews() {
         self.subviews.forEach { $0.removeFromSuperview() }
     }
@@ -107,7 +107,7 @@ extension UIView {
         self.addSubview(view)
         view.pin(to: self)
     }
-    
+
     // Workaround for the UIStackView bug where setting hidden to true with animation
     // mulptiple times requires setting hidden to false multiple times to show the view.
     func workaround_nonRepeatingSetHidden(hidden: Bool) {

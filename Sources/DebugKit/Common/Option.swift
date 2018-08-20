@@ -5,17 +5,17 @@ struct UnwrapError: Swift.Error {
 extension Optional {
     var isSome: Bool {
         switch self {
-        case .some(_):
+        case .some:
             return true
         case .none:
             return false
         }
     }
-    
+
     var isNone: Bool {
         return !isSome
     }
-    
+
     func expect(_ message: String) throws -> Wrapped {
         switch self {
         case .some(let value):
@@ -24,7 +24,7 @@ extension Optional {
             throw UnwrapError(message: message)
         }
     }
-    
+
     func unwrap() throws -> Wrapped {
         switch self {
         case .some(let value):
@@ -33,23 +33,23 @@ extension Optional {
             throw UnwrapError(message: "called `Optional#unwrap()` on a `.none` value")
         }
     }
-    
+
     func unwrapOr(_ other: Wrapped) -> Wrapped {
         guard case let .some(value) = self else {
             return other
         }
         return value
     }
-    
-    func unwrapOrElse(op: () throws -> Wrapped) rethrows -> Wrapped {
+
+    func unwrapOrElse(operation: () throws -> Wrapped) rethrows -> Wrapped {
         switch self {
         case .some(let value):
             return value
         case .none:
-            return try op()
+            return try operation()
         }
     }
-    
+
     func mapOr<U>(default: U, _ transform: (Wrapped) throws -> U) rethrows -> U {
         switch self {
         case .some(let value):
@@ -58,7 +58,7 @@ extension Optional {
             return `default`
         }
     }
-    
+
     func mapOrElse<U>(default: () throws -> U, _ transform: (Wrapped) throws -> U) rethrows -> U {
         switch self {
         case .some(let value):
@@ -67,20 +67,20 @@ extension Optional {
             return try `default`()
         }
     }
-    
+
     func and<U>(_ opt: U?) -> U? {
         switch self {
-        case .some(_):
+        case .some:
             return opt
         case .none:
             return .none
         }
     }
-    
-    func andThen<U>(op: (Wrapped) throws -> U?) rethrows -> U? {
-        return try flatMap(op)
+
+    func andThen<U>(operation: (Wrapped) throws -> U?) rethrows -> U? {
+        return try flatMap(operation)
     }
-    
+
     func filter(_ predicate: (Wrapped) throws -> Bool) rethrows -> Wrapped? {
         guard case let .some(value) = self,
             try predicate(value) else {
@@ -88,22 +88,22 @@ extension Optional {
         }
         return .some(value)
     }
-    
+
     func or(_ opt: Wrapped?) -> Wrapped? {
         switch self {
-        case .some(_):
+        case .some:
             return self
         case .none:
             return opt
         }
     }
-    
-    func orElse(_ op: () throws -> Wrapped?) rethrows -> Wrapped? {
+
+    func orElse(_ operation: () throws -> Wrapped?) rethrows -> Wrapped? {
         switch self {
-        case .some(_):
+        case .some:
             return self
         case .none:
-            return try op()
+            return try operation()
         }
     }
 }
@@ -114,7 +114,7 @@ extension Optional: Default {
 
 extension Optional where Wrapped: Default {
     static var defaultValue: Wrapped? { return Wrapped.defaultValue }
-    
+
     func unwrapOrDefault() -> Wrapped {
         switch self {
         case .some(let value):
@@ -124,4 +124,3 @@ extension Optional where Wrapped: Default {
         }
     }
 }
-
