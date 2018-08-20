@@ -10,7 +10,7 @@ private func metatypesToKeyedModuleMap(accumulator: inout ModuleMap, type: Any.T
     accumulator[moduleType.domain, default: []].append(moduleType)
 }
 
-public class DebugViewController: UIViewController {
+public final class DebugViewController: UIViewController {
     private enum Constants {
         static let title = "Debug"
         static let debugCellIdentifier = "DebugCell"
