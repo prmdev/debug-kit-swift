@@ -8,16 +8,15 @@
 import UIKit
 import DebugKit
 
-struct AppDebugModule: DebugModule {
+struct AppDebugModule: DebugPresentable {
     static let name = "DebugKitExample"
-    static let domain: ModuleDomain = .app
     static let icon: UIImage? = nil
 
-    static func make(forApp info: AppInfo) -> UIViewController {
+    static func createViewController() -> UIViewController {
         return AppDebugController()
     }
 
-    static func searchResults(for query: String) -> [SearchResult] {
+    static func searchResultsWithinModule(for query: String) -> [SearchResult] {
         return []
     }
 }

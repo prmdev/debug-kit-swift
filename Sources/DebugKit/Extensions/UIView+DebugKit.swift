@@ -39,6 +39,11 @@ extension UIView {
         }
     }
 
+    /**
+     Helper to determine whether a view is visible within its superview.
+     
+     Returns `false` if the view does not have a superview.
+     */
     func isVisibleInSuperview() -> Bool {
         guard let superview = self.superview else {
             return false
@@ -46,6 +51,9 @@ extension UIView {
         return self.isVisible(inside: superview)
     }
 
+    /**
+     Helper to determine whether a view is visible within another view.
+     */
     func isVisible(inside view: UIView, completely: Bool = false) -> Bool {
         if self.isHidden {
             return false
@@ -62,6 +70,9 @@ extension UIView {
         return false
     }
 
+    /**
+     Helper to add constraints from this view to the passed view's anchors.
+     */
     func pin(to view: UIView) {
         NSLayoutConstraint.activate([
             leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -71,6 +82,9 @@ extension UIView {
         ])
     }
 
+    /**
+     Helper to remove constraints from this view to the passed view's anchors.
+     */
     func unpin(from view: UIView) {
         NSLayoutConstraint.deactivate([
             leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -80,7 +94,14 @@ extension UIView {
             ])
     }
 
-    func traverseSuperviews(_ until: (UIView) throws -> Bool) rethrows -> UIView? {
+    /**
+     Crawls the view hierarchy searching for a view until a match is found,
+     then it returns the found view.
+     - Parameter until: Predicate closure that confirms a matching view
+     - Parameter view: The view to be inspected for matching
+     - Returns: An `Optional` containing the matched view, or `nil`
+     */
+    func traverseSuperviews(_ until: (_ view: UIView) throws -> Bool) rethrows -> UIView? {
         var pointer: UIView? = self
         while pointer?.superview != nil {
             guard let view = pointer else {
@@ -94,25 +115,32 @@ extension UIView {
         return nil
     }
 
+    /**
+     Helper to remove all subviews from the view hierarchy.
+     */
     func removeAllSubviews() {
         self.subviews.forEach { $0.removeFromSuperview() }
     }
 
+    /**
+     Helper to add a view to the back of the view hierarchy.
+     
+     The newly added view is automatically pinned to the anchors of the view.
+     - Parameter view: The view to add
+     */
     func addBackgroundView(_ view: UIView) {
         self.insertSubview(view, at: 0)
         view.pin(to: self)
     }
 
+    /**
+     Helper to add a view to the front of the view hierarchy.
+     
+     The newly added view is automatically pinned to the anchors of the view.
+     - Parameter view: The view to add
+     */
     func addForegroundView(_ view: UIView) {
         self.addSubview(view)
         view.pin(to: self)
-    }
-
-    // Workaround for the UIStackView bug where setting hidden to true with animation
-    // mulptiple times requires setting hidden to false multiple times to show the view.
-    func workaround_nonRepeatingSetHidden(hidden: Bool) {
-        if self.isHidden != hidden {
-            self.isHidden = hidden
-        }
     }
 }
