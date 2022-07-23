@@ -2,7 +2,7 @@
 //  SearchResult.swift
 //  DebugKit
 //
-//  Created by Aaron Sky on 8/21/18.
+//  Created by prmdev on 8/21/18.
 //
 
 public struct SearchResult {
